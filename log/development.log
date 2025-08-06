@@ -1,0 +1,129 @@
+  [1m[35mSQL (0.8ms)[0m  [1m[35mSET search_path TO public /*application='ToDoListApi'*/[0m
+  [1m[35m (207.3ms)[0m  [1m[35mCREATE DATABASE "to_do_list_api_development" ENCODING = 'unicode' /*application='ToDoListApi'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='ToDoListApi'*/[0m
+  [1m[35m (83.1ms)[0m  [1m[35mCREATE DATABASE "to_do_list_api_test" ENCODING = 'unicode' /*application='ToDoListApi'*/[0m
+  [1m[35m (6.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY) /*application='ToDoListApi'*/[0m
+  [1m[35m (4.6ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='ToDoListApi'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_try_advisory_lock(950803198435596345) /*application='ToDoListApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ToDoListApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.8ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='ToDoListApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2025-08-06 09:40:08.146851', '2025-08-06 09:40:08.146856') RETURNING "key" /*application='ToDoListApi'*/[0m
+Migrating to CreateUsers (20250806092924)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='ToDoListApi'*/[0m
+  [1m[35m (7.2ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "name" character varying, "email" character varying, "password_digest" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='ToDoListApi'*/[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email") /*application='ToDoListApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250806092924') RETURNING "version" /*application='ToDoListApi'*/[0m
+  [1m[36mTRANSACTION (3.4ms)[0m  [1m[35mCOMMIT /*application='ToDoListApi'*/[0m
+Migrating to CreateTodos (20250806093021)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN /*application='ToDoListApi'*/[0m
+  [1m[35m (6.3ms)[0m  [1m[35mCREATE TABLE "todos" ("id" bigserial primary key, "title" character varying NOT NULL, "description" text, "completed" boolean DEFAULT FALSE, "priority" integer DEFAULT 1, "created_by" integer NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='ToDoListApi'*/[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE INDEX "index_todos_on_created_by" ON "todos" ("created_by") /*application='ToDoListApi'*/[0m
+  [1m[35m (4.6ms)[0m  [1m[35mCREATE INDEX "index_todos_on_completed" ON "todos" ("completed") /*application='ToDoListApi'*/[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE INDEX "index_todos_on_priority" ON "todos" ("priority") /*application='ToDoListApi'*/[0m
+  [1m[35m (2.4ms)[0m  [1m[35mALTER TABLE "todos" ADD CONSTRAINT "fk_rails_6851288ea5"
+FOREIGN KEY ("created_by")
+  REFERENCES "users" ("id")
+ /*application='ToDoListApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250806093021') RETURNING "version" /*application='ToDoListApi'*/[0m
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[35mCOMMIT /*application='ToDoListApi'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(950803198435596345) /*application='ToDoListApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ToDoListApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ToDoListApi'*/[0m
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = 'john@example.com' LIMIT 1 /*application='ToDoListApi'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='ToDoListApi'*/[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER('john@example.com') LIMIT 1 /*application='ToDoListApi'*/[0m
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ('John Doe', 'john@example.com', '$2a$12$qwHrdWr8dCoWpBNUXoduxeQCOK6YqOfTgfmyOtkmSsUKCJNnlEtiG', '2025-08-06 09:41:50.616684', '2025-08-06 09:41:50.616684') RETURNING "id" /*application='ToDoListApi'*/[0m
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT /*application='ToDoListApi'*/[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = 'jane@example.com' LIMIT 1 /*application='ToDoListApi'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='ToDoListApi'*/[0m
+  [1m[36mUser Exists? (2.1ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER('jane@example.com') LIMIT 1 /*application='ToDoListApi'*/[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ('Jane Smith', 'jane@example.com', '$2a$12$KupAfRNIRDyFPNm3sFGPKuG2ZSG.ZN/FR5bzHVRIQeGyZqXrE5cXi', '2025-08-06 09:41:50.856044', '2025-08-06 09:41:50.856044') RETURNING "id" /*application='ToDoListApi'*/[0m
+  [1m[36mTRANSACTION (2.8ms)[0m  [1m[35mCOMMIT /*application='ToDoListApi'*/[0m
+  [1m[36mUser Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "users" /*application='ToDoListApi'*/[0m
+  [1m[36mTodo Exists? (2.0ms)[0m  [1m[34mSELECT 1 AS one FROM "todos" WHERE "todos"."created_by" = 1 LIMIT 1 /*application='ToDoListApi'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='ToDoListApi'*/[0m
+  [1m[36mUser Load (2.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*application='ToDoListApi'*/[0m
+  [1m[36mTodo Create (0.9ms)[0m  [1m[32mINSERT INTO "todos" ("title", "description", "completed", "priority", "created_by", "created_at", "updated_at") VALUES ('Complete Rails API tutorial', 'Build a comprehensive to-do list API with authentication', FALSE, 1, 1, '2025-08-06 09:41:50.991925', '2025-08-06 09:41:50.991925') RETURNING "id" /*application='ToDoListApi'*/[0m
+  [1m[36mTRANSACTION (2.7ms)[0m  [1m[35mCOMMIT /*application='ToDoListApi'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='ToDoListApi'*/[0m
+  [1m[36mUser Load (2.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*application='ToDoListApi'*/[0m
+  [1m[36mTodo Create (0.4ms)[0m  [1m[32mINSERT INTO "todos" ("title", "description", "completed", "priority", "created_by", "created_at", "updated_at") VALUES ('Write API documentation', 'Document all the endpoints and authentication flow', FALSE, 2, 1, '2025-08-06 09:41:51.020457', '2025-08-06 09:41:51.020457') RETURNING "id" /*application='ToDoListApi'*/[0m
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT /*application='ToDoListApi'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='ToDoListApi'*/[0m
+  [1m[36mUser Load (2.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*application='ToDoListApi'*/[0m
+  [1m[36mTodo Create (0.4ms)[0m  [1m[32mINSERT INTO "todos" ("title", "description", "completed", "priority", "created_by", "created_at", "updated_at") VALUES ('Set up CI/CD pipeline', 'Configure automated testing and deployment', TRUE, 3, 1, '2025-08-06 09:41:51.038702', '2025-08-06 09:41:51.038702') RETURNING "id" /*application='ToDoListApi'*/[0m
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT /*application='ToDoListApi'*/[0m
+  [1m[36mTodo Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "todos" WHERE "todos"."created_by" = 2 LIMIT 1 /*application='ToDoListApi'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='ToDoListApi'*/[0m
+  [1m[36mUser Load (2.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 2 LIMIT 1 /*application='ToDoListApi'*/[0m
+  [1m[36mTodo Create (0.6ms)[0m  [1m[32mINSERT INTO "todos" ("title", "description", "completed", "priority", "created_by", "created_at", "updated_at") VALUES ('Review code changes', 'Review pull requests from team members', FALSE, 1, 2, '2025-08-06 09:41:51.060798', '2025-08-06 09:41:51.060798') RETURNING "id" /*application='ToDoListApi'*/[0m
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT /*application='ToDoListApi'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='ToDoListApi'*/[0m
+  [1m[36mUser Load (1.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 2 LIMIT 1 /*application='ToDoListApi'*/[0m
+  [1m[36mTodo Create (0.4ms)[0m  [1m[32mINSERT INTO "todos" ("title", "description", "completed", "priority", "created_by", "created_at", "updated_at") VALUES ('Update project README', 'Add setup instructions and API documentation', FALSE, 2, 2, '2025-08-06 09:41:51.087154', '2025-08-06 09:41:51.087154') RETURNING "id" /*application='ToDoListApi'*/[0m
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT /*application='ToDoListApi'*/[0m
+  [1m[36mTodo Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "todos" /*application='ToDoListApi'*/[0m
+Started POST "/auth/login" for 127.0.0.1 at 2025-08-06 12:44:14 +0300
+  [1m[36mActiveRecord::SchemaMigration Load (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='ToDoListApi'*/[0m
+Processing by AuthenticationController#authenticate as */*
+  Parameters: {"email"=>"[FILTERED]", "password"=>"[FILTERED]", "authentication"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}}
+[31mUnpermitted parameter: :authentication. Context: { controller: AuthenticationController, action: authenticate, request: #<ActionDispatch::Request:0x000073a89ec29060>, params: {"email"=>"[FILTERED]", "password"=>"[FILTERED]", "controller"=>"authentication", "action"=>"authenticate", "authentication"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}} }[0m
+[31mUnpermitted parameter: :authentication. Context: { controller: AuthenticationController, action: authenticate, request: #<ActionDispatch::Request:0x000073a89ec29060>, params: {"email"=>"[FILTERED]", "password"=>"[FILTERED]", "controller"=>"authentication", "action"=>"authenticate", "authentication"=>{"email"=>"[FILTERED]", "password"=>"[FILTERED]"}} }[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = 'john@example.com' LIMIT 1 /*action='authenticate',application='ToDoListApi',controller='authentication'*/[0m
+  ↳ app/services/authenticate_user.rb:18:in `user'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = 'john@example.com' LIMIT 1[0m
+  ↳ app/services/authenticate_user.rb:18:in `user'
+Completed 200 OK in 566ms (Views: 0.3ms | ActiveRecord: 13.7ms (2 queries, 1 cached) | GC: 0.0ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2025-08-06 12:44:28 +0300
+Processing by TodosController#index as */*
+  [1m[36mUser Load (1.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='index',application='ToDoListApi',controller='todos'*/[0m
+  ↳ app/services/authorize_api_request.rb:20:in `user'
+  [1m[36mTodo Load (1.0ms)[0m  [1m[34mSELECT "todos".* FROM "todos" WHERE "todos"."created_by" = 1 LIMIT 25 OFFSET 0 /*action='index',application='ToDoListApi',controller='todos'*/[0m
+  ↳ app/controllers/concerns/response.rb:3:in `json_response'
+Completed 200 OK in 88ms (Views: 27.6ms | ActiveRecord: 5.6ms (2 queries, 0 cached) | GC: 2.2ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2025-08-06 12:44:46 +0300
+Processing by TodosController#create as */*
+  Parameters: {"title"=>"Test API endpoint", "description"=>"Testing the create todo functionality", "priority"=>1, "todo"=>{"title"=>"Test API endpoint", "description"=>"Testing the create todo functionality", "priority"=>1}}
+  [1m[36mUser Load (7.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1 /*action='create',application='ToDoListApi',controller='todos'*/[0m
+  ↳ app/services/authorize_api_request.rb:20:in `user'
+[31mUnpermitted parameter: :todo. Context: { controller: TodosController, action: create, request: #<ActionDispatch::Request:0x000073a89e8d7268>, params: {"title"=>"Test API endpoint", "description"=>"Testing the create todo functionality", "priority"=>1, "controller"=>"todos", "action"=>"create", "todo"=>{"title"=>"Test API endpoint", "description"=>"Testing the create todo functionality", "priority"=>1}} }[0m
+  [1m[36mCACHE User Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  ↳ app/controllers/todos_controller.rb:22:in `create'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*action='create',application='ToDoListApi',controller='todos'*/[0m
+  ↳ app/controllers/todos_controller.rb:22:in `create'
+  [1m[36mTodo Create (6.3ms)[0m  [1m[32mINSERT INTO "todos" ("title", "description", "completed", "priority", "created_by", "created_at", "updated_at") VALUES ('Test API endpoint', 'Testing the create todo functionality', FALSE, 1, 1, '2025-08-06 09:44:46.962793', '2025-08-06 09:44:46.962793') RETURNING "id" /*action='create',application='ToDoListApi',controller='todos'*/[0m
+  ↳ app/controllers/todos_controller.rb:22:in `create'
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT /*action='create',application='ToDoListApi',controller='todos'*/[0m
+  ↳ app/controllers/todos_controller.rb:22:in `create'
+Completed 201 Created in 124ms (Views: 8.7ms | ActiveRecord: 12.8ms (3 queries, 1 cached) | GC: 1.4ms)
+
+
+Started POST "/signup" for 127.0.0.1 at 2025-08-06 12:45:01 +0300
+Processing by UsersController#create as */*
+  Parameters: {"name"=>"Test User", "email"=>"[FILTERED]", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "user"=>{"name"=>"Test User", "email"=>"[FILTERED]"}}
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x000073a89eadfc90>, params: {"name"=>"Test User", "email"=>"[FILTERED]", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "controller"=>"users", "action"=>"create", "user"=>{"name"=>"Test User", "email"=>"[FILTERED]"}} }[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*action='create',application='ToDoListApi',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:4:in `create'
+  [1m[36mUser Exists? (12.1ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER('test@example.com') LIMIT 1 /*action='create',application='ToDoListApi',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:4:in `create'
+  [1m[36mUser Create (9.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ('Test User', 'test@example.com', '$2a$12$/4NO33kJB/TQcYM8o5uJPuWsJYsAsQ5KUAhjzUxmKR1JIy.7I3X5G', '2025-08-06 09:45:02.316203', '2025-08-06 09:45:02.316203') RETURNING "id" /*action='create',application='ToDoListApi',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:4:in `create'
+  [1m[36mTRANSACTION (2.5ms)[0m  [1m[35mCOMMIT /*action='create',application='ToDoListApi',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:4:in `create'
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x000073a89eadfc90>, params: {"name"=>"Test User", "email"=>"[FILTERED]", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "controller"=>"users", "action"=>"create", "user"=>{"name"=>"Test User", "email"=>"[FILTERED]"}} }[0m
+  [1m[36mUser Load (7.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = 'test@example.com' LIMIT 1 /*action='create',application='ToDoListApi',controller='users'*/[0m
+  ↳ app/services/authenticate_user.rb:18:in `user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = 'test@example.com' LIMIT 1[0m
+  ↳ app/services/authenticate_user.rb:18:in `user'
+Completed 201 Created in 955ms (Views: 0.1ms | ActiveRecord: 35.0ms (4 queries, 1 cached) | GC: 1.6ms)
+
+
+Started GET "/docs" for 127.0.0.1 at 2025-08-06 12:46:34 +0300
+Processing by ApiDocsController#index as */*
+Completed 200 OK in 2ms (Views: 0.3ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
