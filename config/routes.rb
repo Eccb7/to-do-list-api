@@ -6,19 +6,19 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Authentication routes
-  post '/auth/login', to: 'authentication#authenticate'
-  post '/signup', to: 'users#create'
-  
+  post "/auth/login", to: "authentication#authenticate"
+  post "/signup", to: "users#create"
+
   # API Documentation
-  get '/docs', to: 'api_docs#index'
-  
+  get "/docs", to: "api_docs#index"
+
   # Todo routes
-  resources :todos, except: [:new, :edit]
-  
+  resources :todos, except: [ :new, :edit ]
+
   # API versioning (optional for future expansion)
   namespace :api do
     namespace :v1 do
-      resources :todos, except: [:new, :edit]
+      resources :todos, except: [ :new, :edit ]
     end
   end
 

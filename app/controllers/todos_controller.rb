@@ -1,18 +1,18 @@
 class TodosController < ApplicationController
   include Authenticable
 
-  before_action :set_todo, only: [:show, :update, :destroy]
+  before_action :set_todo, only: [ :show, :update, :destroy ]
 
   # GET /todos
   def index
     @todos = current_user.todos.page(params[:page])
-    
+
     # Filter by status if provided
-    @todos = @todos.completed if params[:status] == 'completed'
-    @todos = @todos.pending if params[:status] == 'pending'
-    
+    @todos = @todos.completed if params[:status] == "completed"
+    @todos = @todos.pending if params[:status] == "pending"
+
     # Order by priority if requested
-    @todos = @todos.by_priority if params[:sort_by] == 'priority'
+    @todos = @todos.by_priority if params[:sort_by] == "priority"
 
     json_response(@todos)
   end

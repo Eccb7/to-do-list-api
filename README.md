@@ -33,7 +33,7 @@ A RESTful API for managing to-do lists with user authentication built with Ruby 
 
 1. Clone the repository:
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Eccb7/to-do-list-api.git
 cd to-do-list-api
 ```
 

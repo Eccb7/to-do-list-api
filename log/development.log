@@ -127,3 +127,69 @@ Processing by ApiDocsController#index as */*
 Completed 200 OK in 2ms (Views: 0.3ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
 
 
+Started POST "/signup" for 127.0.0.1 at 2025-08-06 12:56:40 +0300
+Processing by UsersController#create as */*
+  Parameters: {"name"=>"API Test User", "email"=>"[FILTERED]", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "user"=>{"name"=>"API Test User", "email"=>"[FILTERED]"}}
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x000073a8a110ba40>, params: {"name"=>"API Test User", "email"=>"[FILTERED]", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "controller"=>"users", "action"=>"create", "user"=>{"name"=>"API Test User", "email"=>"[FILTERED]"}} }[0m
+  [1m[36mTRANSACTION (2.9ms)[0m  [1m[35mBEGIN /*action='create',application='ToDoListApi',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:4:in `create'
+  [1m[36mUser Exists? (5.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE LOWER("users"."email") = LOWER('apitest@example.com') LIMIT 1 /*action='create',application='ToDoListApi',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:4:in `create'
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "created_at", "updated_at") VALUES ('API Test User', 'apitest@example.com', '$2a$12$81PJy..rPFTumrfi6Pu4qObep1/s3HPWbkoNmwDZxc8l7b66ilpqa', '2025-08-06 09:56:41.354398', '2025-08-06 09:56:41.354398') RETURNING "id" /*action='create',application='ToDoListApi',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:4:in `create'
+  [1m[36mTRANSACTION (9.3ms)[0m  [1m[35mCOMMIT /*action='create',application='ToDoListApi',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:4:in `create'
+[31mUnpermitted parameter: :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x000073a8a110ba40>, params: {"name"=>"API Test User", "email"=>"[FILTERED]", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "controller"=>"users", "action"=>"create", "user"=>{"name"=>"API Test User", "email"=>"[FILTERED]"}} }[0m
+  [1m[36mUser Load (1.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = 'apitest@example.com' LIMIT 1 /*action='create',application='ToDoListApi',controller='users'*/[0m
+  ↳ app/services/authenticate_user.rb:18:in `user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = 'apitest@example.com' LIMIT 1[0m
+  ↳ app/services/authenticate_user.rb:18:in `user'
+Completed 201 Created in 838ms (Views: 0.1ms | ActiveRecord: 55.3ms (4 queries, 1 cached) | GC: 0.4ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2025-08-06 12:56:41 +0300
+Processing by TodosController#create as */*
+  Parameters: {"title"=>"API Test Todo", "description"=>"Testing todo creation via API", "priority"=>1, "todo"=>{"title"=>"API Test Todo", "description"=>"Testing todo creation via API", "priority"=>1}}
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 4 LIMIT 1 /*action='create',application='ToDoListApi',controller='todos'*/[0m
+  ↳ app/services/authorize_api_request.rb:20:in `user'
+[31mUnpermitted parameter: :todo. Context: { controller: TodosController, action: create, request: #<ActionDispatch::Request:0x000073a89e9137b8>, params: {"title"=>"API Test Todo", "description"=>"Testing todo creation via API", "priority"=>1, "controller"=>"todos", "action"=>"create", "todo"=>{"title"=>"API Test Todo", "description"=>"Testing todo creation via API", "priority"=>1}} }[0m
+  [1m[36mCACHE User Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 4 LIMIT 1[0m
+  ↳ app/controllers/todos_controller.rb:22:in `create'
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mBEGIN /*action='create',application='ToDoListApi',controller='todos'*/[0m
+  ↳ app/controllers/todos_controller.rb:22:in `create'
+  [1m[36mTodo Create (3.9ms)[0m  [1m[32mINSERT INTO "todos" ("title", "description", "completed", "priority", "created_by", "created_at", "updated_at") VALUES ('API Test Todo', 'Testing todo creation via API', FALSE, 1, 4, '2025-08-06 09:56:41.995268', '2025-08-06 09:56:41.995268') RETURNING "id" /*action='create',application='ToDoListApi',controller='todos'*/[0m
+  ↳ app/controllers/todos_controller.rb:22:in `create'
+  [1m[36mTRANSACTION (16.3ms)[0m  [1m[35mCOMMIT /*action='create',application='ToDoListApi',controller='todos'*/[0m
+  ↳ app/controllers/todos_controller.rb:22:in `create'
+Completed 201 Created in 100ms (Views: 4.8ms | ActiveRecord: 27.5ms (3 queries, 1 cached) | GC: 0.2ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2025-08-06 12:56:42 +0300
+Processing by TodosController#index as */*
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 4 LIMIT 1 /*action='index',application='ToDoListApi',controller='todos'*/[0m
+  ↳ app/services/authorize_api_request.rb:20:in `user'
+  [1m[36mTodo Load (0.4ms)[0m  [1m[34mSELECT "todos".* FROM "todos" WHERE "todos"."created_by" = 4 LIMIT 25 OFFSET 0 /*action='index',application='ToDoListApi',controller='todos'*/[0m
+  ↳ app/controllers/concerns/response.rb:3:in `json_response'
+Completed 200 OK in 26ms (Views: 12.6ms | ActiveRecord: 1.0ms (2 queries, 0 cached) | GC: 0.2ms)
+
+
+Started GET "/todos?status=pending" for 127.0.0.1 at 2025-08-06 12:56:42 +0300
+Processing by TodosController#index as */*
+  Parameters: {"status"=>"pending"}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 4 LIMIT 1 /*action='index',application='ToDoListApi',controller='todos'*/[0m
+  ↳ app/services/authorize_api_request.rb:20:in `user'
+  [1m[36mTodo Load (0.5ms)[0m  [1m[34mSELECT "todos".* FROM "todos" WHERE "todos"."created_by" = 4 AND "todos"."completed" = FALSE LIMIT 25 OFFSET 0 /*action='index',application='ToDoListApi',controller='todos'*/[0m
+  ↳ app/controllers/concerns/response.rb:3:in `json_response'
+Completed 200 OK in 11ms (Views: 6.3ms | ActiveRecord: 0.9ms (2 queries, 0 cached) | GC: 0.6ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2025-08-06 12:56:42 +0300
+Processing by TodosController#index as */*
+Completed 422 Unprocessable Content in 1ms (Views: 0.8ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2025-08-06 12:56:42 +0300
+Processing by TodosController#index as */*
+Completed 422 Unprocessable Content in 1ms (Views: 0.5ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+

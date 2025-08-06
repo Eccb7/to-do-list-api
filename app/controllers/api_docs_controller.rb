@@ -44,7 +44,7 @@ class ApiDocsController < ApplicationController
             }
           },
           create: {
-            method: "POST", 
+            method: "POST",
             path: "/todos",
             description: "Create a new todo",
             body: {
