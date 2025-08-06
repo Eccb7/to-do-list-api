@@ -126,7 +126,7 @@ app/
 ### Quick Setup
 ```bash
 # Clone and setup
-git clone <repo-url>
+git clone https://github.com/Eccb7/to-do-list-api.git
 cd to-do-list-api
 ./setup.sh
 
